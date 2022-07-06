@@ -416,11 +416,11 @@ def _mysql_reset_sequences(style, connection):
 
     if django.VERSION >= (3, 1):
         flush_statements = connection.ops.sql_flush(
-            style, tables, connection.introspection.sequence_list()
+            style, tables
         )
     else:
         flush_statements = connection.ops.sql_flush(
-            style, tables, *connection.introspection.sequence_list()
+            style, tables, connection.introspection.sequence_list()
         )
 
     # connection.ops.sequence_reset_sql() is not implemented for MySQL,
