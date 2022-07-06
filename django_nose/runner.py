@@ -14,6 +14,7 @@ from importlib import import_module
 from optparse import NO_DEFAULT
 from types import MethodType
 
+import django
 from django import setup
 from django.apps import apps
 from django.conf import settings
@@ -412,9 +413,15 @@ def _should_create_database(connection):
 def _mysql_reset_sequences(style, connection):
     """Return a SQL statements needed to reset Django tables."""
     tables = connection.introspection.django_table_names(only_existing=True)
-    flush_statements = connection.ops.sql_flush(
-        style, tables, connection.introspection.sequence_list()
-    )
+
+    if django.VERSION >= (3, 1):
+        flush_statements = connection.ops.sql_flush(
+            style, tables, connection.introspection.sequence_list()
+        )
+    else:
+        flush_statements = connection.ops.sql_flush(
+            style, tables, *connection.introspection.sequence_list()
+        )
 
     # connection.ops.sequence_reset_sql() is not implemented for MySQL,
     # and the base class just returns []. TODO: Implement it by pulling

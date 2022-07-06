@@ -1,9 +1,10 @@
 Changelog
 ---------
 
-unreleased
+1.4.8 (2022-07-06)
 ~~~~~~~~~~
-
+* Add Django 3.0 and 3.1 support
+* Add Python 3.8 and 3.9 support
 * Dropped Python 2 support.
 * Moved CI to
   `GitHub Actions <https://github.com/jazzband/django-nose/actions>`_.
